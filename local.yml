@@ -1,0 +1,28 @@
+# tasks to complete before running roles
+- hosts: all
+  tags: always
+  become: true
+  pre_tasks:
+    - name: pre-run | update package cache
+      tags: always
+      apt:
+        update_cache: yes
+        chache_valid_time: 86400
+      changed_when: false
+    - name: Creating an hello.txt file
+      file:
+        path: "/tmp/hello.txt"
+        state: touch
+
+# run roles
+- hosts: all
+  tags: base
+  become: true
+  roles:
+    - base
+
+- hosts: zabbix-proxy
+  tags: zabbix-proxy
+  become: true
+  roles:
+    - zabbix-proxy
