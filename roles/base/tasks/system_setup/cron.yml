@@ -1,0 +1,19 @@
+- name: system_setup | cron
+  tags: packages,cron
+  package:
+    name: cron
+    state: latest
+
+- name: system_setup | cron | ensure cron service is running
+  tags: cron
+  service:
+    name: cron
+    state: started
+    enabled: yes
+
+- name: system_setup | cron | schedule automatic ansible provisioning every 10 minutes
+  tags: cron
+  cron:
+    name: "ansible-provisioning"
+    minute: "*/10"
+    job: "ansible-pull -U https://github.com/n0tLuca/zabbix-proxy-automation.git"
