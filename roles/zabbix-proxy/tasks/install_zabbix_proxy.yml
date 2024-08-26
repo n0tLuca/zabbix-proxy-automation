@@ -1,0 +1,50 @@
+# Import Zabbix Repo and install Zabbix Proxy
+- name: Download Zabbix repository package
+  tags: zabbix-proxy
+  get_url:
+    url: https://repo.zabbix.com/zabbix/7.0/debian/pool/main/z/zabbix-release/zabbix-release_7.0-2+debian12_all.deb
+    dest: /tmp/zabbix-release_7.0-2+debian12_all.deb
+
+- name: Install Zabbix repository package
+  tags: zabbix-proxy
+  apt:
+    deb: /tmp/zabbix-release_7.0-2+debian12_all.deb
+    update_cache: yes
+
+- name: Install Zabbix Proxy and SQL scripts
+  tags: zabbix-proxy
+  apt:
+    name:
+      - zabbix-proxy-mysql
+      - zabbix-sql-scripts
+    state: present
+
+- name: Ensure MySQL/MariaDB is installed
+  tags: zabbix-proxy
+  apt:
+    name: mariadb-server
+    state: present
+
+- name: Start and enable MySQL/MariaDB service
+  tags: zabbix-proxy
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Create Zabbix Proxy database
+  tags: zabbix-proxy
+  mysql_db:
+    name: zabbix_proxy
+    encoding: utf8mb4
+    collation: utf8mb4_bin
+    state: present
+
+- name: Create MySQL user for Zabbix Proxy
+  tags: zabbix-proxy
+  mysql_user:
+    name: zabbix
+    password: "password"
+    priv: "zabbix_proxy.*:ALL"
+    host: localhost
+    state: present
