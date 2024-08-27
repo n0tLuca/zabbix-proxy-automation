@@ -1,4 +1,5 @@
 [zabbix-proxy]
 PROXYLUCA01
+ZBXPROXYINF11
 # server2.mydomain.com
 # server3.mydomain.com
