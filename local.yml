@@ -21,8 +21,8 @@
   roles:
     - base
 
-- hosts: zabbix-proxy
-  tags: zabbix-proxy
+- hosts: zabbix_proxy
+  tags: zabbix_proxy
   become: true
   roles:
-    - zabbix-proxy
+    - zabbix_proxy
