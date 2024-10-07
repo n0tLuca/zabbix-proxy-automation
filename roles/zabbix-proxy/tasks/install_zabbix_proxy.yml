@@ -25,6 +25,12 @@
     name: mariadb-server
     state: present
 
+- name: Ensure pymysql is installed
+  tags: zabbix-proxy
+  pip:
+    name: pymysql
+    state: present
+
 - name: Start and enable MySQL/MariaDB service
   tags: zabbix-proxy
   service:
@@ -48,3 +54,13 @@
     priv: "zabbix_proxy.*:ALL"
     host: localhost
     state: present
+
+- name: Check if Zabbix Schema is imported
+  tags: zabbix-proxy
+  shell: mysql -uzabbix -ppassword zabbix_proxy -e "show tables;" | grep -q "history"
+  register: zabbix_schema_imported
+
+- name: Import Zabbix Schema
+  tags: zabbix-proxy
+  shell: zcat /usr/share/doc/zabbix-sql-scripts/mysql/create.sql.gz | mysql -uzabbix -ppassword zabbix_proxy
+  when: zabbix_schema_imported.rc != 0

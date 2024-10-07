@@ -1,3 +1,4 @@
 # Install and configure Zabbix Proxy
 - block:
   - import_tasks: install_zabbix_proxy.yml
+  - import_tasks: configure_zabbix_proxy.yml
