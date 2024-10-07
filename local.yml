@@ -2,6 +2,8 @@
 - hosts: all
   tags: always
   become: true
+  become_method: su
+  become_user: root
   pre_tasks:
     - name: pre-run | update package cache
       tags: always
