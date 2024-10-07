@@ -2,7 +2,7 @@
 
 - name: Install VIM and Sudo
   tags: packages
-  become: true
+  become: false
   apt:
     name:
       - vim
@@ -11,7 +11,7 @@
 
 - name: Add user to sudo group
   tags: packages
-  become: true
+  become: false
   user:
     name: "{{ operator_user }}"
     groups: sudo
