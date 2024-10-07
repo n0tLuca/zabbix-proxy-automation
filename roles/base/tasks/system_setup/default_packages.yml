@@ -1,0 +1,15 @@
+# Install VIM and Sudo
+
+- name: Install VIM and Sudo
+  apt:
+    name:
+      - vim
+      - sudo
+    state: present
+
+- name: Add user to sudo group
+  user:
+    name: "{{ operator_user }}"
+    groups: sudo
+    append: yes
+    state: present
