@@ -18,6 +18,8 @@
 - hosts: all
   tags: base
   become: true
+  become_method: su
+  become_user: root
   roles:
     - base
 
