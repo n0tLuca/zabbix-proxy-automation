@@ -1,6 +1,8 @@
 # Install VIM and Sudo
 
 - name: Install VIM and Sudo
+  tags: packages
+  become: true
   apt:
     name:
       - vim
@@ -8,6 +10,8 @@
     state: present
 
 - name: Add user to sudo group
+  tags: packages
+  become: true
   user:
     name: "{{ operator_user }}"
     groups: sudo
